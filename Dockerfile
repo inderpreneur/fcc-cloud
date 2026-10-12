@@ -1,6 +1,6 @@
 FROM python:3.14-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends git caddy ca-certificates && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir uv
 
@@ -10,8 +10,10 @@ WORKDIR /app
 
 RUN uv sync
 
-ENV HOST=0.0.0.0
+COPY start.sh /start.sh
+
+ENV HOST=127.0.0.1
 
 EXPOSE 10000
 
-CMD ["uv", "run", "fcc-server"]
+CMD ["sh", "/start.sh"]
